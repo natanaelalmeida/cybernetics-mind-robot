@@ -9,4 +9,4 @@ api = Api(app)
 api.add_resource(MoveService, '/move')
 
 if __name__ == "__main__":
-    app.run(debug=True, host='192.168.1.106', port=5005)
+    app.run(debug=True, host='172.17.0.2', port=5005)

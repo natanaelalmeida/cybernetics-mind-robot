@@ -13,9 +13,10 @@ class MoveService(Resource):
         self.__move_interface = MoveInterface()
 
     def post(self):
-        scalar_acceleration, rotation = self._body()
+        scalar_acceleration, rotation, angle_acc = self._body()
         motion_detected = MotionDetectedFactory(scalar_acceleration,
-                                                rotation).create()
+                                                rotation,
+                                                angle_acc).create()
 
         self.__move_interface.go_to_joint(motion_detected)
         result = json.dumps({"State": 'Move'})
@@ -26,4 +27,5 @@ class MoveService(Resource):
         body = json.loads(request.json)
         scalar_accelerations = body['scalar_accelerations']
         rotations = body['rotations']
-        return scalar_accelerations, rotations
+        angle_acc = body['angle_acceleration']
+        return scalar_accelerations, rotations, angle_acc

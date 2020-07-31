@@ -27,18 +27,27 @@ class MoveInterface(object):
         self.__eef_link = self.__move_group.get_end_effector_link()
         self.__group_names = self.__robot.get_group_names()
 
-    def go_to_joint(self, motion_detected: MotionDetected):
+    def go_to_joint(self, motion_detected):
         joint_goal = self.__move_group.get_current_joint_values()
         joint_goal[0] = 0
         joint_goal[1] = -np.pi/4
         joint_goal[2] = 0
         joint_goal[3] = -np.pi/2
         joint_goal[4] = 0
-        joint_goal[5] = motion_detected.rotation.axis_y
+        joint_goal[5] = motion_detected.angle_acceleration
         joint_goal[6] = 0
 
         self.__move_group.set_max_acceleration_scaling_factor(
             motion_detected.scalar_acceleration.axis_y)
+
+        print('Angle-acc', motion_detected.angle_acceleration)
+        print('Rot-axis-x', motion_detected.rotation.axis_x)
+        print('Rot-axis-z', motion_detected.rotation.axis_y)
+        print('Rot-axis-y', motion_detected.rotation.axis_z)
+        print('--------')
+        print('Acc-axis-x', motion_detected.scalar_acceleration.axis_x)
+        print('Acc-axis-y', motion_detected.scalar_acceleration.axis_y)
+        print('Acc-axis-z', motion_detected.scalar_acceleration.axis_z)
 
         self.__move_group.go(joint_goal, wait=True)
         self.__move_group.stop()
