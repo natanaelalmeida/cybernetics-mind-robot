@@ -34,13 +34,14 @@ class MoveInterface(object):
         joint_goal[2] = 0
         joint_goal[3] = -np.pi/2
         joint_goal[4] = 0
-        joint_goal[5] = motion_detected.angle_acceleration
+        #joint_goal[5] = np.pi/2
+        joint_goal[5] = motion_detected.angle_displacement
         joint_goal[6] = 0
 
         self.__move_group.set_max_acceleration_scaling_factor(
             motion_detected.scalar_acceleration.axis_y)
 
-        print('Angle-acc', motion_detected.angle_acceleration)
+        print('Angle-displacement', motion_detected.angle_displacement)
         print('Rot-axis-x', motion_detected.rotation.axis_x)
         print('Rot-axis-z', motion_detected.rotation.axis_y)
         print('Rot-axis-y', motion_detected.rotation.axis_z)
